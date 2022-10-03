@@ -229,16 +229,19 @@ def predict_from_classifier (base_dir, loop):
 		data = datasets.ImageFolder(data_dir, transform=test_transforms)
 		to_pil = transforms.ToPILImage()
 		images, labels, fnames = get_images()
-		colnames = ['filename','pr_class', 'gt_class']
+		colnames = ['file_name', 'ind_pr', 'pr_class', 'gt_class']
 		results = pd.DataFrame(columns=colnames)
 		indices = list(range(len(data)))
 		for ii in range(len(indices)):
-			fn  = os.path.basename(fnames[ii][0])
+			temp_fn  = os.path.basename(fnames[ii][0])
+			new_str = temp_fn.split("_")
+			fn = f"{new_str[0]}.jpg"
+			ind_pr = new_str[1]
 			image = to_pil(images[ii])
 			pclass = predict_image(image)
 			lclass = labels[ii].item()
-			results.loc[len(results)] = [fn, classes[lclass], classes[pclass]]
-			print(fn, classes[lclass], classes[pclass])
+			results.loc[len(results)] = [fn, ind_pr, classes[lclass], classes[pclass]]
+			print(fn, ind_pr, classes[lclass], classes[pclass])
 			results.to_csv(out_dir, index=False)
       
 #####
@@ -626,12 +629,32 @@ def train_classifier (base_dir):
 
 #####
 
-def removing_duplicates():
-  import sys
-  sys.path.append("/home/botml/code/py")
-  import model_tools
-  
-  model_predictions_file = "/home/karina/test/temp_pred/_predictions.npy"
-  duplicates_out_file="/home/jgb/test_duplicates_out.csv"
-  model_tools.find_duplicate_predictions(model_predictions_file, duplicates_out_file, 0.7)
+def removing_duplicates(base_dir, loop):
+	import sys
+	sys.path.append("/home/botml/code/py")
+	import model_tools
+	model_predictions_file = os.path.join(base_dir, "/home/karina/test/temp_pred/_predictions.npy")
+	duplicates_out_file="/home/jgb/test_duplicates_out.csv"
+	model_tools.find_duplicate_predictions(model_predictions_file, duplicates_out_file, 0.7)
  
+#####
+
+def running_R():
+	import subprocess
+	import os, csv, glob
+  
+	base_dir = os.getcwd()
+  
+	output_file = os.path.join(base_dir, "final_results.csv")
+	in_dir = os.path.join(base_dir, "temp_pred_leaf/")
+  
+	filelist = glob.glob(os.path.join(in_dir, '*.csv'))
+  
+	with open(output_file, 'a') as f_out:
+		header = ['filenames', 'index', 'circle_area_results', 'curvature_results', 'mask_area_results']
+		writer = csv.writer(f_out, delimiter=',')
+		writer.writerow(header)
+		for i in filelist:
+			fileproc = subprocess.check_output(['/usr/bin/Rscript', '--vanilla', "/home/botml/code/dev/main_loop/temp.R", i], universal_newlines=True, stderr=subprocess.STDOUT)
+			res_list = list(fileproc.split(","))
+			writer.writerow(res_list)
