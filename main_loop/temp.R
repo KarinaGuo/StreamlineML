@@ -12,12 +12,14 @@ in_directory <- paste0(base_dir, "/temp_pred_leaf")
 
 #append = TRUE, 
 
-filenames = "filename"
-circle_area_results = "circle_area_results"
-mask_area_results = "mask_area_results"
-curvature_results = "curvature_results"
+filenames = "Val_1"
+circle_area_results = "Val_2"
+mask_area_results = "Val_3"
+curvature_results = "Val_4"
 
-stats=(as.data.frame(c(filenames, circle_area_results, curvature_results, mask_area_results), col.names = c(c('file_name','index', 'circle_area_results', 'curvature_results', "mask_area_results")), stringsAsFactors=FALSE))
-print(stats)
+cat(filenames,",", circle_area_results,",", curvature_results,",", mask_area_results)
+
+#stats=(as.data.frame(c(filenames, circle_area_results, curvature_results, mask_area_results), col.names = c(c('file_name', 'circle_area_results', 'curvature_results', "mask_area_results")), stringsAsFactors=FALSE))
+#print(stats)
 
 #write.table(stats, file = output_file, append = TRUE, sep = ”,“, col.names = TRUE)
