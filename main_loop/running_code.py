@@ -4,6 +4,7 @@ sys.path.append("/home/botml/code/dev")
 import linking_functions
 import pandas as pd
 import shutil
+import contextlib
 
 base_dir = os.getcwd()
 print ("Base directory set as: ", base_dir)
@@ -28,7 +29,7 @@ print ("Making files: /classifier_results_test.csv, /temp_filter.csv")
 
 #File list of all images - making batches
 file_list = glob.glob('/home/botml/euc/data/raw/*.jpg') #replace dir with image dir, could possibly do this as a argpars
-
+#file_list = glob.glob('/home/karina/test/classifier_training_data/*.jpg')
 temp_image_subset_dir = os.path.join(base_dir, "temp_image_subset")  
 image_list = os.path.join(base_dir, "file_list_all.txt")
 batch_size = math.ceil(len(file_list)/5)
@@ -65,39 +66,37 @@ if ((counter*batch_size)+1) >= image_length:
 				out_file.write(file)
 				out_file.write('\n')
 		counter += 1
+		print("number of batches equal:", counter-1)
+	else:
 		print("number of batches equal:", counter)
-   else:
-    print("number of batches equal:", counter)
 
 #Carrying out functions on batches
 
 batch_list = glob.glob(os.path.join(base_dir, "temp_image_subset_lists/*.txt"))
 
+
+f = open("output.txt", "a")
 for batch in batch_list:
-  with open (batch, newline='') as img_batch_file:
-    images_to_copy_list = img_batch_file.read().split('\n')
-    for images in images_to_copy_list:
-      shutil.move(images, os.path.join(temp_image_subset, "/")) #set images as filename and os.path.join to create shutil
-  print(f"starting {batch}")
-  
-
-image_length = len(file_list)
-
-
-#TO BE UPDATED: Carrying out functions
-
-with open(image_list, newline='') as filelist:
-  for batch in pd.read_csv(image_list, chunksize=batch_size):
-    
-    for img in filelist:
-      print(os.path.join(temp_image_subset, "."))
-      os.symlink(img, os.path.join(temp_image_subset, "."))
-      print(f"Copying {img}")
-	    linking_functions.predict_leaf(base_dir, "main")
-	    linking_functions.extract_leaves(base_dir, "main", "Y")
-      linking_functions.removing_files() 
-      running_R.py (base_dir)
-	    linking_functions.predict_from_classifier(base_dir, "main")
-      list_remove = glob.glob(os.path.join("base_dir/temp*"), recursive=True)
-      for filepath in list_remove:
-        os.remove(filepath)
+	print(f"starting {batch}", file=f)
+	with open (batch, newline='') as img_batch_file:
+		images_to_copy_list = img_batch_file.read().split('\n')
+		images_to_copy_list = images_to_copy_list[:-1]
+		for images in images_to_copy_list:
+			print(images)
+			shutil.copy(images, temp_image_subset, follow_symlinks=True) #set images as filename and os.path.join to create shutil
+		linking_functions.predict_leaf(base_dir, "main")
+		print(f"{batch} leaf dimension predicted", file=f)
+		linking_functions.extract_leaves(base_dir, "main", "Y")
+		print(f"{batch} leaf cropped", file=f)
+		linking_functions.predict_from_classifier(base_dir, "main")
+		print(f"{batch} classifier predicted", file=f)
+		linking_functions.removing_files() 
+		print(f"{batch} files removed", file=f)
+		linking_functions.running_R.py (base_dir)
+		print(f"{batch} leaf traits extracted", file=f)
+		list_remove = glob.glob(os.path.join("base_dir/temp*"), recursive=True)
+		for filepath in list_remove:
+			os.remove(filepath)
+		print(f"{batch} removing temporary files", file=f)
+	print(f"completed {batch}", file=f)
+f.close()

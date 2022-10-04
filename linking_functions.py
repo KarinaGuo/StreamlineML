@@ -6,10 +6,10 @@ def predict_leaf(base_dir, loop):
   import os
   
   #Inputs for predict_leaf
-  if loop == main:
-    img_dir= os.path.join(ase_dir, "temp_image_subset/")
+  if loop == "main":
+    img_dir= os.path.join(base_dir, "temp_image_subset/")
     out_dir= os.path.join(base_dir, "temp_pred/")
-  if loop == model:  
+  if loop == "model":  
     img_dir= os.path.join(base_dir, "input_d2_test/")
     out_dir= os.path.join(base_dir, "d2_pred/")
   training_path = base_dir
