@@ -3,6 +3,7 @@ import math, csv
 sys.path.append("/home/botml/code/dev")
 import linking_functions
 import pandas as pd
+import shutil
 
 base_dir = os.getcwd()
 print ("Base directory set as: ", base_dir)
@@ -65,6 +66,23 @@ if ((counter*batch_size)+1) >= image_length:
 				out_file.write('\n')
 		counter += 1
 		print("number of batches equal:", counter)
+   else:
+    print("number of batches equal:", counter)
+
+#Carrying out functions on batches
+
+batch_list = glob.glob(os.path.join(base_dir, "temp_image_subset_lists/*.txt"))
+
+for batch in batch_list:
+  with open (batch, newline='') as img_batch_file:
+    images_to_copy_list = img_batch_file.read().split('\n')
+    for images in images_to_copy_list:
+      shutil.move(images, os.path.join(temp_image_subset, "/")) #set images as filename and os.path.join to create shutil
+  print(f"starting {batch}")
+  
+
+image_length = len(file_list)
+
 
 #TO BE UPDATED: Carrying out functions
 
