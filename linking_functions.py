@@ -115,7 +115,7 @@ def extract_leaves(base_dir, loop, CCA):
           cpad = csize // 10
           rpad = cpad + (csize - rsize) // 2
           
-        if CCA == Y:
+        if CCA == "Y":
           gray = cv2.cvtColor(in_leaf, cv2.COLOR_BGR2GRAY)
           thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
           output = cv2.connectedComponentsWithStats(thresh, connectivity, cv2.CV_32S)
@@ -639,22 +639,21 @@ def removing_duplicates(base_dir, loop):
  
 #####
 
-def running_R():
+def running_R(base_dir):
 	import subprocess
 	import os, csv, glob
-  
-	base_dir = os.getcwd()
-  
+
 	output_file = os.path.join(base_dir, "final_results.csv")
 	in_dir = os.path.join(base_dir, "temp_pred_leaf/")
-  
+	print(in_dir)
 	filelist = glob.glob(os.path.join(in_dir, '*.csv'))
-  
+
 	with open(output_file, 'a') as f_out:
 		header = ['filenames', 'index', 'circle_area_results', 'curvature_results', 'mask_area_results']
 		writer = csv.writer(f_out, delimiter=',')
 		writer.writerow(header)
 		for i in filelist:
-			fileproc = subprocess.check_output(['/usr/bin/Rscript', '--vanilla', "/home/botml/code/dev/main_loop/temp.R", i], universal_newlines=True, stderr=subprocess.STDOUT)
+			print("Extracting trait values for", i)
+			fileproc = subprocess.check_output(['/usr/bin/Rscript', '--vanilla', "/home/botml/code/dev/main_loop/leaf_dimension_calculations.R", i], universal_newlines=True, stderr=subprocess.STDOUT)
 			res_list = list(fileproc.split(","))
 			writer.writerow(res_list)

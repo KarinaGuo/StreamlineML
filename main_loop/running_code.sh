@@ -2,31 +2,62 @@
 #mkdir model/
 #mkdir model/classifier 
 #echo "Making directories: /model, /model/d2, /model/classifier"
+touch log.txt
+echo "Made log.file" >> log.txt
+
+curr_date=`date`
+echo $curr_date >> log.txt
 
 touch classifier_results_test.csv final_results.csv
-echo "Making file: /classifier_results_test.csv, /final_results.csv"
+echo "Making file: /classifier_results_test.csv, /final_results.csv" >> log.txt
+
+mkdir temp_image_subset temp_image_subset_lists
+echo "Making folder: temp_image_subset, temp_image_subset_lists" >> log.txt
+
+mkdir classifier_training_data
 
 base_dir=`pwd`
-echo "Base directory set as" $base_dir
+echo "Base directory set as" $base_dir >> log.txt
 
-for i in  $(cat file_list.txt); do 
+python /home/botml/code/dev/main_loop/batching_files.py $base_dir >> log.txt
+batch_list=`ls -d $PWD/temp_image_subset_lists/*`
+
+echo "batches are" ${batch_list}
+
+for batch in $batch_list; do 
+	echo "starting" ${batch} >> log.txt
+	now_time=`date`
+	echo $now_time >> log.txt
+	conda activate pytorch
 	touch temp_filter.csv 
 	touch temp_classifier_results_test.csv
-	echo "Making files: /classifier_results_test.csv, /temp_filter.csv"
+	echo "Making files: /classifier_results_test.csv, /temp_filter.csv" 
 	
 	mkdir temp_image_subset 
 	echo "Making directories: /temp_image_subset"
 
 	mkdir temp_pred 
+	mkdir temp_pred_leaf
 	mkdir temp_pred_leaf/subf 
 	echo "Making directories: /temp_pred, /temp_pred_leaf"
 	
-	echo copying ${i}; 
-	ln -s ${i} temp_image_subset/ 
-	python predict_leaf.py $base_dir "main"
-	python extract_leaves.py $base_dir "main"
-  python removing_files.py 
-  python running_R.py $base_dir "final_results.csv"
-	python predict_from_classifier.py $base_dir "main"
+	for i in $(cat ${batch}); do echo copying ${i} >> log.txt; image=`basename ${i}`; ln -s ${i} temp_image_subset/$image; done 
+	echo "images copied"
+  
+	python /home/botml/code/dev/main_loop/predict_leaf.py $base_dir "main"
+	echo ${batch} "leaf dimension predicted" >> log.txt
+	echo "leaves predicted"
+	python /home/botml/code/dev/main_loop/extract_leaves.py $base_dir "main" "Y"
+	echo ${batch} "leaves cropped" >> log.txt
+	echo "leaves cropped"
+	python /home/botml/code/dev/main_loop/predict_from_classifier.py $base_dir "main"
+	echo ${batch} "classifier predicted" >> log.txt
+	echo "classifier classed"  
+	python /home/botml/code/dev/main_loop/removing_files.py $base_dir
+	conda activate MLpredictions 
+	python /home/botml/code/dev/main_loop/running_R.py $base_dir
 	rm -r temp*
+	echo ${batch} "removed temporary files" >> log.txt
+	echo ${batch} "completed!" >> log.txt
+	echo "batch completed :)"
 done

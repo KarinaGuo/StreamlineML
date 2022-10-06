@@ -10,12 +10,13 @@ leaf = read.csv(leaf_file)
 
 # some functions
 #convex_hull_calculations <- function (in_directory){
-  library (reshape2)
-  library (sp)
-  library (tidyverse)
-  library (concaveman)
-  library (raster)
-  library (geosphere)
+library (reshape2)
+library (sp)
+library (sf)
+library (tidyverse)
+library (concaveman)
+library (raster)
+library (geosphere)
 
   calculating_area <- function(leaf){
     leaf = leaf[,-1]
@@ -111,8 +112,8 @@ leaf = read.csv(leaf_file)
 #}
 
 
-#cat(filename,",", calculating_area(leaf),",", in_circle(leaf),",", calculating_hull(leaf))
-cat(leaf_file,",", "A",",", "B",",", "C")
+cat(leaf_file,",", calculating_area(leaf),",", in_circle(leaf),",", calculating_hull(leaf))
+#cat(leaf_file,",", "A",",", "B",",", "C")
 
 
 #filenames_rem <- gsub(".*NSW", "NSW", filenames)

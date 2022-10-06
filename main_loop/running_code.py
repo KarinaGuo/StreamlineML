@@ -31,7 +31,6 @@ print ("Making files: /classifier_results_test.csv, /temp_filter.csv")
 file_list = glob.glob('/home/botml/euc/data/raw/*.jpg') #replace dir with image dir, could possibly do this as a argpars
 #file_list = glob.glob('/home/karina/test/classifier_training_data/*.jpg')
 temp_image_subset_dir = os.path.join(base_dir, "temp_image_subset")  
-image_list = os.path.join(base_dir, "file_list_all.txt")
 batch_size = math.ceil(len(file_list)/5)
 
 image_length = len(file_list)
@@ -76,7 +75,8 @@ batch_list = glob.glob(os.path.join(base_dir, "temp_image_subset_lists/*.txt"))
 
 
 f = open("output.txt", "a")
-for batch in batch_list:
+counter = 0
+for count, batch in enumerate(batch_list):
 	print(f"starting {batch}", file=f)
 	with open (batch, newline='') as img_batch_file:
 		images_to_copy_list = img_batch_file.read().split('\n')
@@ -90,7 +90,7 @@ for batch in batch_list:
 		print(f"{batch} leaf cropped", file=f)
 		linking_functions.predict_from_classifier(base_dir, "main")
 		print(f"{batch} classifier predicted", file=f)
-		linking_functions.removing_files() 
+		linking_functions.removing_files (base_dir) 
 		print(f"{batch} files removed", file=f)
 		linking_functions.running_R.py (base_dir)
 		print(f"{batch} leaf traits extracted", file=f)
