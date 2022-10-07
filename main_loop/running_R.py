@@ -8,12 +8,12 @@ args = parser.parse_args()
 base_dir = args.base_dir
 
 output_file = os.path.join(base_dir, "final_results.csv")
-in_dir = os.path.join(base_dir, "temp_pred_leaf/")
+in_dir = os.path.join(base_dir, "temp_pred_leaf/subf")
 print(in_dir)
 filelist = glob.glob(os.path.join(in_dir, '*.csv'))
 
 with open(output_file, 'a') as f_out:
-  header = ['filenames', 'index', 'circle_area_results', 'curvature_results', 'mask_area_results']
+  header = ['filenames', 'mask_area_results', 'circle_area_results', 'curvature_results']
   writer = csv.writer(f_out, delimiter=',')
   writer.writerow(header)
   for i in filelist:

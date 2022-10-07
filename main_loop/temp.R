@@ -1,25 +1,12 @@
-args = commandArgs(trailingOnly=TRUE)
+args <- commandArgs(trailingOnly=TRUE)
 
-#link_hull_incircle --vanilla $base_dir
+#link_hull_incircle --vanilla base_dir final_results.csv
+#in_directory <- paste0(args[1], "/temp_pred_leaf")
 
-base_dir = args[1]
-in_directory <- paste0(base_dir, "/temp_pred_leaf")
+# read the bitmask for a single leaf csv
+leaf_file = gsub("[\n]","",args[1])
+leaf <- read.csv(leaf_file)
 
-#stats = c("test", "wtf")
+#library (reshape2)
 
-#output_file = paste0(base_dir, "/final_results.csv")
-#write.table(stats, file = output_file, sep = ”,“, col.names = TRUE,fileEncoding = "UTF-8")
-
-#append = TRUE, 
-
-filenames = "Val_1"
-circle_area_results = "Val_2"
-mask_area_results = "Val_3"
-curvature_results = "Val_4"
-
-cat(filenames,",", circle_area_results,",", curvature_results,",", mask_area_results)
-
-#stats=(as.data.frame(c(filenames, circle_area_results, curvature_results, mask_area_results), col.names = c(c('file_name', 'circle_area_results', 'curvature_results', "mask_area_results")), stringsAsFactors=FALSE))
-#print(stats)
-
-#write.table(stats, file = output_file, append = TRUE, sep = ”,“, col.names = TRUE)
+print("success???")

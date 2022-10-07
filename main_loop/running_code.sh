@@ -11,16 +11,17 @@ echo $curr_date >> log.txt
 touch classifier_results_test.csv final_results.csv
 echo "Making file: /classifier_results_test.csv, /final_results.csv" >> log.txt
 
-mkdir temp_image_subset temp_image_subset_lists
-echo "Making folder: temp_image_subset, temp_image_subset_lists" >> log.txt
+mkdir temp_image_subset image_subset_lists
+echo "Making folder: temp_image_subset, image_subset_lists" >> log.txt
 
 mkdir classifier_training_data
 
 base_dir=`pwd`
 echo "Base directory set as" $base_dir >> log.txt
 
-python /home/botml/code/dev/main_loop/batching_files.py $base_dir >> log.txt
-batch_list=`ls -d $PWD/temp_image_subset_lists/*`
+conda activate pytorch
+python /home/botml/code/dev/main_loop/batching_files.py $base_dir 3 >> log.txt
+batch_list=`ls -d $PWD/image_subset_lists/*`
 
 echo "batches are" ${batch_list}
 
