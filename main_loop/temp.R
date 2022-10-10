@@ -7,6 +7,8 @@ args <- commandArgs(trailingOnly=TRUE)
 leaf_file = gsub("[\n]","",args[1])
 leaf <- read.csv(leaf_file)
 
-#library (reshape2)
+print("load success")
+
+library (reshape2)
 
 print("success???")

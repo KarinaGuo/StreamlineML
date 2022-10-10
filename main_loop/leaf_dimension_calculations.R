@@ -4,18 +4,18 @@ args <- commandArgs(trailingOnly=TRUE)
 #in_directory <- paste0(args[1], "/temp_pred_leaf")
 
 # read the bitmask for a single leaf csv
-leaf_file = gsub("[\n]","",args[1])
+leaf_file = args[1]
 leaf <- read.csv(leaf_file)
 
 # some functions
 #convex_hull_calculations <- function (in_directory){
 library (reshape2)
 library (sp)
-library (sf)
-library (tidyverse)
-library (concaveman)
-library (raster)
-library (geosphere)
+suppressMessages(library (sf))
+suppressMessages(library (tidyverse))
+suppressMessages(library (concaveman))
+suppressMessages(library (raster))
+suppressMessages(library (geosphere))
 
   calculating_area <- function(leaf){
     leaf = leaf[,-1]
@@ -110,8 +110,12 @@ library (geosphere)
 #  .GlobalEnv$circle_area_results <- sapply(leaf, in_circle)
 #}
 
+filenames <- leaf_file
+filenames_rem <- gsub(".*NSW", "NSW", filenames)
+filenames_splt1 <- gsub("\\.csv", "", filenames_rem)
+filenames_splt2 <- str_split(filenames_splt1, "_")
 
-cat(leaf_file,",", calculating_area(leaf),",", in_circle(leaf),",", calculating_hull(leaf))
+cat(filenames_splt2[[1]][1],",",filenames_splt2[[1]][2],",",calculating_area(leaf),",", in_circle(leaf),",", calculating_hull(leaf))
 #cat(leaf_file,",", "A",",", "B",",", "C")
 
 

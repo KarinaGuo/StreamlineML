@@ -2,24 +2,26 @@
 #mkdir model/
 #mkdir model/classifier 
 #echo "Making directories: /model, /model/d2, /model/classifier"
+
+conda activate pytorch
 touch log.txt
 echo "Made log.file" >> log.txt
+
+base_dir=`pwd`
+echo "Base directory set as" $base_dir >> log.txt
 
 curr_date=`date`
 echo $curr_date >> log.txt
 
 touch classifier_results_test.csv final_results.csv
 echo "Making file: /classifier_results_test.csv, /final_results.csv" >> log.txt
+python /home/botml/code/dev/main_loop/adding_header.py $base_dir
 
 mkdir temp_image_subset image_subset_lists
 echo "Making folder: temp_image_subset, image_subset_lists" >> log.txt
 
 mkdir classifier_training_data
 
-base_dir=`pwd`
-echo "Base directory set as" $base_dir >> log.txt
-
-conda activate pytorch
 python /home/botml/code/dev/main_loop/batching_files.py $base_dir 3 >> log.txt
 batch_list=`ls -d $PWD/image_subset_lists/*`
 
