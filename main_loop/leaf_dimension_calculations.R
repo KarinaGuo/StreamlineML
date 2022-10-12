@@ -9,13 +9,14 @@ leaf <- read.csv(leaf_file)
 
 # some functions
 #convex_hull_calculations <- function (in_directory){
-library (reshape2)
-library (sp)
+suppressMessages(library (reshape2))
+suppressMessages(library (sp))
 suppressMessages(library (sf))
 suppressMessages(library (tidyverse))
 suppressMessages(library (concaveman))
 suppressMessages(library (raster))
 suppressMessages(library (geosphere))
+suppressMessages(library (stringr))
 
   calculating_area <- function(leaf){
     leaf = leaf[,-1]
@@ -64,17 +65,6 @@ suppressMessages(library (geosphere))
     curvature_ratio_not = chull.area_hull/chull.area_leaf
   }
   
-#  filenames <- list.files(in_directory, pattern="*.csv", full.names=TRUE)
-#  .GlobalEnv$filename_file <- sapply(filenames,basename) 
-#  leaf <- lapply(filenames, read.csv)
-#  leaf <- lapply(leaf, as.matrix)
-#  .GlobalEnv$curvature_results <- sapply(leaf, calculating_hull)
-#  .GlobalEnv$mask_area_results <- sapply(leaf, calculating_area)
-#}
-
-#in_circle_calculations <- function(in_directory) {
-  
-  
   in_circle <- function(leaf) {
     #leaf <- read.csv("~/Uni/Honours/Thesis/Data Analysis or Code/Data/test_notcurved2.csv")
     leaf = leaf[,-1]
@@ -104,11 +94,6 @@ suppressMessages(library (geosphere))
     #Area of largest in circle
     area = pi * radius^2
   }
-  
-#  filenames <- list.files(in_directory, pattern="*.csv", full.names=TRUE)
-#  leaf <- lapply(filenames, read.csv)
-#  .GlobalEnv$circle_area_results <- sapply(leaf, in_circle)
-#}
 
 filenames <- leaf_file
 filenames_rem <- gsub(".*NSW", "NSW", filenames)
@@ -116,26 +101,3 @@ filenames_splt1 <- gsub("\\.csv", "", filenames_rem)
 filenames_splt2 <- str_split(filenames_splt1, "_")
 
 cat(filenames_splt2[[1]][1],",",filenames_splt2[[1]][2],",",calculating_area(leaf),",", in_circle(leaf),",", calculating_hull(leaf))
-#cat(leaf_file,",", "A",",", "B",",", "C")
-
-
-#filenames_rem <- gsub(".*NSW", "NSW", filenames)
-#filenames_splt1 <- gsub("\\.csv", "", filenames_rem)
-#filenames_splt2 <- str_split(filenames_splt1, "_")
-
-#convex_hull_calculations (in_directory)
-#in_circle_calculations (in_directory)
-
-#curvature_ratio <- as.data.frame(curvature_results)
-#mask_area <- as.data.frame(mask_area_results)
-#in_circle_area <- as.data.frame(circle_area_results)
-#filenames <- data.frame(matrix(unlist(filenames_splt2), 
-#                               nrow=length(filenames_splt2), byrow=TRUE))
-
-#stats=(as.data.frame(c(filenames, circle_area_results, curvature_results, mask_area_results),
-#                     col.names = c(c('file_name','index', 'circle_area_results', 'curvature_results', "mask_area_results")), 
-#                     stringsAsFactors=FALSE))
-
-#output_file = paste0(args[1], "/final_results.csv")
-
-#write.table(stats, file = output_file, append = TRUE, sep = ”,“, col.names = TRUE)
