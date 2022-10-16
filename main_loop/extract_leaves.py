@@ -83,9 +83,7 @@ for NSWID in (model_predictions):
 			for i in range(1, numLabels):
 				A = stats[i, cv2.CC_STAT_AREA]
 				area.append(A)
-			keepArea = max(area)        
-			for i in range(1, numLabels):
-				A = stats[i, cv2.CC_STAT_AREA]		
+				keepArea = max(area)	
 				if keepArea == A:
 					componentMask = (labels == i).astype("uint8") * 255
 					mask = cv2.bitwise_or(mask, componentMask)

@@ -25,7 +25,7 @@ fext = "jpg"
 yaml_zoo=False
 weights_zoo=False
 num_classes=2
-model_tools.visualize_predictions(img_dir, out_dir, fext, training_path, training_name, yaml_file, weights_file, yaml_zoo, weights_zoo, num_classes, score_thresh=0.7, s1=10, s2=14)
+#model_tools.visualize_predictions(img_dir, out_dir, fext, training_path, training_name, yaml_file, weights_file, yaml_zoo, weights_zoo, num_classes, score_thresh=0.7, s1=10, s2=14)
 model_tools.predict_in_directory(img_dir, out_dir, fext, yaml_file, weights_file, yaml_zoo, weights_zoo, num_classes, score_thresh=0.7)
 groundtruth_name="test"
 model_predictions_file = os.path.join(out_dir, "_predictions.npy")
