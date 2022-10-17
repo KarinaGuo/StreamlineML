@@ -37,8 +37,8 @@ for batch in $batch_list; do
 	touch temp_filter.csv 
 	touch temp_classifier_results_test.csv
 	echo "Making files: /classifier_results_test.csv, /temp_filter.csv" 
-	
-	mkdir temp_image_subset 
+
+  mkdir temp_image_subset 
 	echo "Making directories: /temp_image_subset"
 
 	mkdir temp_pred 
@@ -57,7 +57,7 @@ for batch in $batch_list; do
 	
   echo "" >> log.txt
   echo ${batch} "system time for extract_leaves" >> log.txt
-  (time python /home/botml/code/dev/main_loop/extract_leaves.py $base_dir "main" "Y") 2>> log.txt
+  (time python /home/jgb/tmp/kg/extract_leaves.py $base_dir "main" "Y" >> log.txt) 2>> log.txt
 	echo "leaves cropped"
 	
   echo "" >> log.txt
@@ -67,13 +67,14 @@ for batch in $batch_list; do
  
 	python /home/botml/code/dev/main_loop/removing_files.py $base_dir
 	
-  echo "" >> log.txt
-  echo ${batch} "system time to activate MLpredictions" >> log.txt
-  (time conda activate MLpredictions) 2>> log.txt 
+  #echo "" >> log.txt
+  #echo ${batch} "system time to activate MLpredictions" >> log.txt
+  conda activate MLpredictions
   
   echo "" >> log.txt
   echo ${batch} "system time for running_R and internal R processes" >> log.txt
-	(time python /home/karina/profiling/code/running_R.py $base_dir >> log.txt) 2>> log.txt
+	(time python /home/botml/code/dev/profiling/code/running_R.py $base_dir >> log.txt) 2>> log.txt
+  echo "leaves traited" 
 
 	rm -r temp*
 	echo ${batch} "removed temporary files"

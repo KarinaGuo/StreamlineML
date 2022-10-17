@@ -18,7 +18,7 @@ with open(output_file, 'a') as f_out:
   #writer.writerow(header)
   for i in filelist:
     print("Extracting profile times for", i)
-    fileproc = subprocess.check_output(['/home/karina/miniconda3/envs/MLpredictions/bin/Rscript', '--vanilla', "/home/karina/profiling/code/leaf_dimension_calculations.R", i], universal_newlines=True, stderr=subprocess.STDOUT)
+    fileproc = subprocess.check_output(['/home/karina/miniconda3/envs/MLpredictions/bin/Rscript', '--vanilla', "/home/botml/code/dev/profiling/code/leaf_dimension_calculations.R", i], universal_newlines=True, stderr=subprocess.STDOUT)
     f_out.write(fileproc)
     f_out.write("\n")
     #res_list = list(fileproc.split(","))
