@@ -1,9 +1,6 @@
 args <- commandArgs(trailingOnly=TRUE)
 
-#link_hull_incircle --vanilla base_dir final_results.csv
-#in_directory <- paste0(args[1], "/temp_pred_leaf")
-
-# read the bitmask for a single leaf csv
+#remember to change read.csv to datatable.fread(anysource = file, file = leaf_file, columns=[,-1])
 leaf_file = args[1]
 leaf <- read.csv(leaf_file)
 

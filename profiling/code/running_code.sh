@@ -57,7 +57,7 @@ for batch in $batch_list; do
 	
   echo "" >> log.txt
   echo ${batch} "system time for extract_leaves" >> log.txt
-  (time python /home/jgb/tmp/kg/extract_leaves.py $base_dir "main" "Y" >> log.txt) 2>> log.txt
+  (time python /home/botml/code/dev/main_loop/extract_leaves_mt.py $base_dir "main" "Y" >> log.txt) 2>> log.txt
 	echo "leaves cropped"
 	
   echo "" >> log.txt
