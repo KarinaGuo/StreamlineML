@@ -1,12 +1,5 @@
 args <- commandArgs(trailingOnly=TRUE)
 
-#link_hull_incircle --vanilla base_dir final_results.csv
-#in_directory <- paste0(args[1], "/temp_pred_leaf")
-
-# read the bitmask for a single leaf csv
-leaf_file = args[1]
-leaf <- read.csv(leaf_file)
-
 # some functions
 #convex_hull_calculations <- function (in_directory){
 suppressMessages(library (reshape2))
@@ -17,6 +10,10 @@ suppressMessages(library (concaveman))
 suppressMessages(library (raster))
 suppressMessages(library (geosphere))
 suppressMessages(library (stringr))
+suppressMessages(library (data.table))
+
+leaf_file = args[1]
+leaf <- fread(file = leaf_file, sep = ',', header = TRUE)
 
   calculating_area <- function(leaf){
     leaf = leaf[,-1]
