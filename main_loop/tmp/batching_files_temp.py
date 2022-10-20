@@ -9,7 +9,7 @@ base_dir = args.base_dir
 
 
 #file_list = glob.glob('/home/botml/euc/data/raw/*.jpg') #replace dir with image dir, could possibly do this as a argpars
-file_list = glob.glob('/home/karina/test_images/*.jpg')
+file_list = glob.glob('/home/karina/test_images2/*.jpg')
 batch_size = math.ceil(len(file_list)/args.batch_size)
 
 image_length = len(file_list)

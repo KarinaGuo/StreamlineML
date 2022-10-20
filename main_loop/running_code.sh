@@ -50,7 +50,7 @@ for batch in $batch_list; do
 	python /home/botml/code/dev/main_loop/predict_leaf.py $base_dir "main"
 	echo ${batch} "leaf dimension predicted" >> log.txt
 	echo "leaves predicted"
-	python /home/botml/code/dev/main_loop/extract_leaves.py $base_dir "main" "Y"
+	python /home/botml/code/dev/main_loop/extract_leaves_mt.py $base_dir "main" "Y"
 	echo ${batch} "leaves cropped" >> log.txt
 	echo "leaves cropped"
 	python /home/botml/code/dev/main_loop/predict_from_classifier.py $base_dir "main"

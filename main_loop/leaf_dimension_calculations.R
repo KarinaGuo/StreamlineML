@@ -17,9 +17,9 @@ leaf <- fread(file = leaf_file, sep = ',', header = TRUE)
 
   calculating_area <- function(leaf){
     leaf = leaf[,-1]
-    df.long <- melt(as.matrix(leaf))
+    df.long <- reshape2::melt(as.matrix(leaf))
     df.subset <- df.long %>% 
-      filter(value==255)
+      filter(value==1)
     df.hull <- df.subset[,-3]
     df.hull$Var2 <- gsub("X", "", as.character(df.hull$Var2)) %>% 
       as.numeric()
@@ -38,10 +38,10 @@ leaf <- fread(file = leaf_file, sep = ',', header = TRUE)
   }
   
   calculating_hull <- function(leaf) {
-    leaf = leaf[,-1]*1
-    df.long <- melt(as.matrix(leaf))
+    leaf = leaf[,-1]
+    df.long <- reshape2::melt(as.matrix(leaf))
     df.subset <- df.long %>% 
-      filter(value==255)
+      filter(value==1)
     df.hull <- df.subset[,-3]
     df.hull$Var2 <- gsub("X", "", as.character(df.hull$Var2)) %>% 
       as.numeric()
@@ -69,7 +69,7 @@ leaf <- fread(file = leaf_file, sep = ',', header = TRUE)
     # Var2 = column
     df.long <- reshape2::melt(as.matrix(leaf))
     df.subset <- df.long %>% 
-      filter(value==255)
+      filter(value==1)
     
     ##Getting coordinates of outline
     df.hull <- df.subset[,-3]
