@@ -14,7 +14,7 @@ out_res = os.path.join(args.base_dir, "temp_filter.csv")
 class_res = pd.read_csv(class_pr_res, sep=',')
 filter_res = class_res[class_res.iloc[:,1]=="N"]
 filter_res = filter_res.iloc[:,[0]]
-filter_res.to_csv(out_res, index = False, encoding='utf8', header=None)
+filter_res.to_csv(out_res, index = False, encoding='utf8', header=None, lineterminator="\n")
   
 files_to_delete = set()
   

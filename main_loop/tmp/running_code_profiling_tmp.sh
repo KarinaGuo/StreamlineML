@@ -73,7 +73,7 @@ for batch in $batch_list; do
   
   echo "" >> log.txt
   echo ${batch} "system time for running_R and internal R processes" >> log.txt
-	(time python /home/botml/code/dev/profiling/code/running_R.py $base_dir >> log.txt) 2>> log.txt
+	(time python /home/botml/code/dev/main_loop/running_R_mt.py $base_dir) 2>> log.txt
   echo "leaves traited" 
 
 	rm -r temp*

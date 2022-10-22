@@ -58,7 +58,8 @@ for batch in $batch_list; do
 	echo "classifier classed"  
 	python /home/botml/code/dev/main_loop/removing_files.py $base_dir
 	conda activate MLpredictions 
-	python /home/botml/code/dev/main_loop/running_R.py $base_dir
+	python /home/botml/code/dev/main_loop/running_R_mt.py $base_dir
+  echo ${batch} "leaves traited" >> log.txt 
 	rm -r temp*
 	echo ${batch} "removed temporary files" >> log.txt
 	echo ${batch} "completed!" >> log.txt
