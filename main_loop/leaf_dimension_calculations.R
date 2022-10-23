@@ -96,5 +96,8 @@ filenames <- leaf_file
 filenames_rem <- gsub(".*NSW", "NSW", filenames)
 filenames_splt1 <- gsub("\\.csv", "", filenames_rem)
 filenames_splt2 <- str_split(filenames_splt1, "_")
+filename_edit <- gsub("NSW", "NSW:NSW:NSW ", filenames_splt2[[1]][1] )
+calculating_area_real <- calculating_area(leaf) * 2.049942e-05
+in_circle_real <- in_circle(leaf) * 2.049942e-05
 
-cat(filenames_splt2[[1]][1],",",filenames_splt2[[1]][2],",",calculating_area(leaf),",", in_circle(leaf),",", calculating_hull(leaf))
+cat(filename_edit,",",filenames_splt2[[1]][2],",",calculating_area_real,",", in_circle_real,",", calculating_hull(leaf))

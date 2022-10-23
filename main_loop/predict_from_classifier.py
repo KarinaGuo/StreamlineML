@@ -65,7 +65,7 @@ if args.loop == "main":
 		image = to_pil(images[0][ii])
 		pclass = predict_image(image)
 		results.loc[len(results)] = [fn, classes[pclass]]
-		results.to_csv(out_dir, index=False)
+		results.to_csv(out_dir, index=False, mode='wb')
 
 if args.loop == "model":
 	def get_images():

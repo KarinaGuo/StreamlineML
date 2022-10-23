@@ -41,7 +41,6 @@ with open(output_file, 'a') as f_out:
         res_list = list(leaf_result.split(","))
         writer.writerow(res_list)
 
-
 #with open(output_file, 'a') as f_out:
  #  for r in results:
   #    print(r.get())
