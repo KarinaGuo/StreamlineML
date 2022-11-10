@@ -13,8 +13,8 @@ echo "Base directory set as" $base_dir >> log.txt
 curr_date=`date`
 echo $curr_date >> log.txt
 
-touch classifier_results_test.csv final_results.csv joined_final_results.csv
-echo "Making file: /classifier_results_test.csv, /final_results.csv, /joined_final_results.csv" >> log.txt
+touch classifier_results_test.csv final_results.csv joined_final_results.csv test_duplicates_out.csv
+echo "Making file: /classifier_results_test.csv, /final_results.csv, /joined_final_results.csv, /test_duplicates_out.csv" >> log.txt
 python /home/botml/code/dev/main_loop/adding_header.py $base_dir
 
 mkdir temp_image_subset image_subset_lists
@@ -53,6 +53,9 @@ for batch in $batch_list; do
 	python /home/botml/code/dev/main_loop/extract_leaves_mt.py $base_dir "main" "Y"
 	echo ${batch} "leaves cropped" >> log.txt
 	echo "leaves cropped"
+  python /home/botml/code/dev/main_loop/removing_duplicates.py $base_dir
+  echo ${batch} "duplicates tracked" >> log.txt
+  echo "duplicates tracked"
 	python /home/botml/code/dev/main_loop/predict_from_classifier.py $base_dir "main"
 	echo ${batch} "classifier predicted" >> log.txt
 	echo "classifier classed"  
@@ -66,5 +69,5 @@ for batch in $batch_list; do
 	echo "batch completed :)"
 done
 
-python /home/botml/code/dev/main_loop/left_join_results.py $base_dir '/home/botml/euc/data/meta/euc.csv' --fields 'id' --fields 'decimalLatitude' --fields 'decimalLongitude', --fields 'genus', --fields 'specificEpithet'
+python /home/botml/code/dev/main_loop/left_join_results.py $base_dir --fields 'id' --fields 'decimalLatitude' --fields 'decimalLongitude' --fields 'genus' --fields 'specificEpithet'
 echo "merged results with meta" >> log.txt

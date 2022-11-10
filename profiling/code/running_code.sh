@@ -15,9 +15,9 @@ echo "Base directory set as" $base_dir
 curr_date=`date`
 echo $curr_date >> log.txt
 
-touch classifier_results_test.csv 
-echo "Making file: /classifier_results_test.csv"
-#python /home/botml/code/dev/main_loop/adding_header.py $base_dir
+touch classifier_results_test.csv final_results.csv joined_final_results.csv test_duplicates_out.csv
+echo "Making file: /classifier_results_test.csv, /final_results.csv, /joined_final_results.csv, /test_duplicates_out.csv" >> log.txt
+python /home/botml/code/dev/main_loop/adding_header.py $base_dir
 
 mkdir temp_image_subset image_subset_lists
 echo "Making folder: temp_image_subset, image_subset_lists"
@@ -59,7 +59,12 @@ for batch in $batch_list; do
   echo ${batch} "system time for extract_leaves" >> log.txt
   (time python /home/botml/code/dev/main_loop/extract_leaves_mt.py $base_dir "main" "Y" >> log.txt) 2>> log.txt
 	echo "leaves cropped"
-	
+ 
+	echo "" >> log.txt
+  (time python /home/botml/code/dev/main_loop/removing_duplicates.py $base_dir) 2>>log.txt
+  echo ${batch} "duplicates tracked" >> log.txt
+  echo "duplicates tracked" 
+ 
   echo "" >> log.txt
   echo ${batch} "system time for predict_from_classifier" >> log.txt
   (time python /home/botml/code/dev/main_loop/predict_from_classifier.py $base_dir "main") 2>> log.txt 
