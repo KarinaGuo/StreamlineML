@@ -80,7 +80,7 @@ if args.loop == "model":
 	data = datasets.ImageFolder(data_dir, transform=test_transforms)
 	to_pil = transforms.ToPILImage()
 	images, labels, fnames = get_images()
-	colnames = ['file_name', 'ind_pr', 'pr_class', 'gt_class']
+	colnames = ['file_name', 'ind_pr', 'gt_class', 'pr_class']
 	results = pd.DataFrame(columns=colnames)
 	indices = list(range(len(data)))
 	for ii in range(len(indices)):

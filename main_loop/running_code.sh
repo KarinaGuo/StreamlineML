@@ -69,5 +69,6 @@ for batch in $batch_list; do
 	echo "batch completed :)"
 done
 
-python /home/botml/code/dev/main_loop/left_join_results.py $base_dir --fields 'id' --fields 'decimalLatitude' --fields 'decimalLongitude' --fields 'genus' --fields 'specificEpithet'
+conda activate pytorch
+python /home/botml/code/dev/main_loop/left_join_results.py $base_dir --fields 'id' --fields 'decimalLatitude' --fields 'decimalLongitude' --fields 'genus' --fields 'specificEpithet' 2>> log.txt
 echo "merged results with meta" >> log.txt

@@ -32,8 +32,7 @@ for i in glob.iglob(os.path.join(directory, "*"), recursive = True):
     for files in files_to_delete:
         files = files.split('.')
         files_full = os.path.join(directory, files[0] + '.csv')
-
-file_to_delete = os.remove(files_full)
+        os.remove(files_full)
 
 for files in glob.iglob(os.path.join(directory, "*.jpg"), recursive = True):
     os.remove(files)

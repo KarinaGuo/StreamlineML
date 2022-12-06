@@ -8,7 +8,7 @@ parser.add_argument("base_dir", help="Base directory of processes", type=str)
 parser.add_argument("--fields", help="Fields to join from metadata", action="append", type=str)
 args = parser.parse_args()
 
-raw_out = pd.read_csv(os.path.join(args.base_dir, "final_results.csv"))
+raw_out = pd.read_csv(os.path.join(args.base_dir, "final_results.csv"), on_bad_lines='warn')
 raw_dupe = pd.read_csv(os.path.join(args.base_dir, "test_duplicates_out.csv"))
 joined_out = os.path.join(args.base_dir, "joined_final_results.csv")
 
@@ -30,3 +30,5 @@ joined_results_2 = pd.merge(joined_results_1, raw_dupe, on=['id', 'index'], how=
 joined_results_rmna = joined_results_2.dropna()
 
 joined_results_rmna.to_csv(joined_out, sep=',', index=False)
+
+
